@@ -3,7 +3,7 @@
 Go logger which logs messages in [Datadog](https://docs.datadoghq.com/logs/)
 json format. Build with https://github.com/sirupsen/logrus
 
-To create logger with service name included i result:
+To create logger with service name included in result:
 ```go
 requestId := "1-581cf771-a006649127e371903a2de979"
 logger := NewRequestLogger(requestId, "MyService")
