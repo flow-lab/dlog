@@ -5,6 +5,14 @@ json format. Build with https://github.com/sirupsen/logrus
 
 To create logger with service name included in result:
 ```go
+import (
+  ...
+  log "github.com/sirupsen/logrus"
+  "github.com/flow-lab/dlog"
+)
+
+...
+
 requestId := "1-581cf771-a006649127e371903a2de979"
 logger := NewRequestLogger(requestId, "MyService")
 
@@ -14,6 +22,14 @@ logger.Info("Hello world")
 
 To create a context logger:
 ```go
+import (
+  ...
+  log "github.com/sirupsen/logrus"
+  "github.com/flow-lab/dlog"
+)
+
+...
+
 requestId := "1-581cf771-a006649127e371903a2de979"
 logger := NewRequestLogger(requestId, "MyService")
 
