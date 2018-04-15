@@ -1,20 +1,20 @@
 package dlog
 
 import (
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 	"os"
 )
 
 func init() {
-	datadogFormatter := &log.JSONFormatter{
-		FieldMap: log.FieldMap{
-			log.FieldKeyTime:  "timestamp",
-			log.FieldKeyLevel: "level",
-			log.FieldKeyMsg:   "message",
+	datadogFormatter := &logrus.JSONFormatter{
+		FieldMap: logrus.FieldMap{
+			logrus.FieldKeyTime:  "timestamp",
+			logrus.FieldKeyLevel: "level",
+			logrus.FieldKeyMsg:   "message",
 		},
 	}
-	log.SetFormatter(datadogFormatter)
-	log.SetOutput(os.Stdout)
+	logrus.SetFormatter(datadogFormatter)
+	logrus.SetOutput(os.Stdout)
 }
 
 const (
@@ -22,14 +22,14 @@ const (
 	Service   = "service"
 )
 
-func NewLogger(service string) *log.Entry {
-	return log.WithFields(log.Fields{
+func NewLogger(service string) *logrus.Entry {
+	return logrus.WithFields(logrus.Fields{
 		Service: &service,
 	})
 }
 
-func NewRequestLogger(requestId string, service string) *log.Entry {
-	return log.WithFields(log.Fields{
+func NewRequestLogger(requestId string, service string) *logrus.Entry {
+	return logrus.WithFields(logrus.Fields{
 		RequestIO: &requestId,
 		Service:   &service,
 	})
