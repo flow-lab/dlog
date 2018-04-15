@@ -16,12 +16,12 @@ func TestLogger(t *testing.T) {
 
 	logger := NewLogger("MyService")
 	logger.Logger.Out = &buffer
-	logger.Info("Test logger")
+	logger.Info("Hello World")
 
 	err := json.Unmarshal(buffer.Bytes(), &fields)
 	assert.Nil(t, err)
 
-	assert.Equal(t, fields["message"], "Test logger")
+	assert.Equal(t, fields["message"], "Hello World")
 	assert.Equal(t, fields["level"], "info")
 	assert.Equal(t, fields[Service], "MyService")
 	assert.NotNil(t, fields["timestamp"])
@@ -34,12 +34,12 @@ func TestContextLogger(t *testing.T) {
 
 	logger := NewRequestLogger(requestId, "MyService")
 	logger.Logger.Out = &buffer
-	logger.Info("Test logger")
+	logger.Info("Hello World")
 
 	err := json.Unmarshal(buffer.Bytes(), &fields)
 	assert.Nil(t, err)
 
-	assert.Equal(t, fields["message"], "Test logger")
+	assert.Equal(t, fields["message"], "Hello World")
 	assert.Equal(t, fields["level"], "info")
 	assert.Equal(t, fields[RequestIO], requestId)
 	assert.Equal(t, fields[Service], "MyService")
