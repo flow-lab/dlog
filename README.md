@@ -13,7 +13,6 @@ import (
 
 ...
 
-requestId := "1-581cf771-a006649127e371903a2de979"
 logger := NewLogger("MyService")
 
 logger.Info("Hello world")
