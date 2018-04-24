@@ -4,6 +4,7 @@ Go logger which logs messages in [Datadog](https://docs.datadoghq.com/logs/)
 json format. Build with https://github.com/sirupsen/logrus
 
 ## Logger with default application name
+
 ```go
 import (
   ...
