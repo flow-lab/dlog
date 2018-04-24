@@ -14,7 +14,7 @@ import (
 ...
 
 requestId := "1-581cf771-a006649127e371903a2de979"
-logger := NewRequestLogger(requestId, "MyService")
+logger := NewRequestLogger("MyService")
 
 logger.Info("Hello world")
 {"level":"info","message":"Hello World","service":"MyService","timestamp":"2018-04-15T21:06:00+02:00"}
