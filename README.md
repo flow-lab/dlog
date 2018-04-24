@@ -1,9 +1,9 @@
-## dlog - Datadog logger
+## dlog - Datadog Go logger
 
 Go logger which logs messages in [Datadog](https://docs.datadoghq.com/logs/)
 json format. Build with https://github.com/sirupsen/logrus
 
-To create logger with service name included in result:
+## Logger with default application name
 ```go
 import (
   ...
@@ -19,7 +19,8 @@ logger.Info("Hello world")
 {"level":"info","message":"Hello World","service":"MyService","timestamp":"2018-04-15T21:06:00+02:00"}
 ```
 
-To create a context logger:
+## Context logger
+
 ```go
 import (
   ...

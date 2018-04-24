@@ -19,18 +19,18 @@ func init() {
 
 const (
 	RequestIO = "X-Request-ID"
-	Service   = "service"
+	AppName   = "appname"
 )
 
 func NewLogger(service string) *logrus.Entry {
 	return logrus.WithFields(logrus.Fields{
-		Service: &service,
+		AppName: &service,
 	})
 }
 
 func NewRequestLogger(requestId string, service string) *logrus.Entry {
 	return logrus.WithFields(logrus.Fields{
 		RequestIO: &requestId,
-		Service:   &service,
+		AppName:   &service,
 	})
 }
