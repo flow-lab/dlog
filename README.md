@@ -1,4 +1,4 @@
-## dlog - Datadog Go logger
+## dlog - Datadog Go logger [![Build Status](https://travis-ci.org/flow-lab/dlog.svg?branch=master)](https://travis-ci.org/flow-lab/dlog)
 
 Go logger which logs messages in [Datadog](https://docs.datadoghq.com/logs/)
 json format. Build with https://github.com/sirupsen/logrus
