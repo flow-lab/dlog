@@ -1,11 +1,11 @@
 package dlog
 
 import (
-	"testing"
 	"bytes"
-	"github.com/stretchr/testify/assert"
-	"github.com/sirupsen/logrus"
 	"encoding/json"
+	"github.com/sirupsen/logrus"
+	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 const requestId = "1-581cf771-a006649127e371903a2de979"
@@ -25,7 +25,7 @@ func TestLogger(t *testing.T) {
 	assert.Equal(t, fields["level"], "info")
 	assert.Equal(t, fields[Service], "MyService")
 	assert.NotNil(t, fields["timestamp"])
-	assert.Nil(t, fields[RequestIO])
+	assert.Nil(t, fields[RequestId])
 }
 
 func TestContextLogger(t *testing.T) {
@@ -41,7 +41,7 @@ func TestContextLogger(t *testing.T) {
 
 	assert.Equal(t, fields["message"], "Hello World")
 	assert.Equal(t, fields["level"], "info")
-	assert.Equal(t, fields[RequestIO], requestId)
+	assert.Equal(t, fields[RequestId], requestId)
 	assert.Equal(t, fields[Service], "MyService")
 	assert.NotNil(t, fields["timestamp"])
 }

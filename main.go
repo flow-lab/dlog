@@ -18,7 +18,7 @@ func init() {
 }
 
 const (
-	RequestIO = "X-Request-ID"
+	RequestId = "X-Request-ID"
 	Service   = "service"
 )
 
@@ -30,7 +30,7 @@ func NewLogger(service string) *logrus.Entry {
 
 func NewRequestLogger(requestId string, service string) *logrus.Entry {
 	return logrus.WithFields(logrus.Fields{
-		RequestIO: &requestId,
+		RequestId: &requestId,
 		Service:   &service,
 	})
 }
