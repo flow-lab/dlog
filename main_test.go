@@ -23,7 +23,7 @@ func TestLogger(t *testing.T) {
 
 	assert.Equal(t, fields["message"], "Hello World")
 	assert.Equal(t, fields["level"], "info")
-	assert.Equal(t, fields[Service], "MyService")
+	assert.Equal(t, fields[AppName], "MyService")
 	assert.NotNil(t, fields["timestamp"])
 	assert.Nil(t, fields[RequestId])
 }
@@ -42,6 +42,6 @@ func TestContextLogger(t *testing.T) {
 	assert.Equal(t, fields["message"], "Hello World")
 	assert.Equal(t, fields["level"], "info")
 	assert.Equal(t, fields[RequestId], requestId)
-	assert.Equal(t, fields[Service], "MyService")
+	assert.Equal(t, fields[AppName], "MyService")
 	assert.NotNil(t, fields["timestamp"])
 }
