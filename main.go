@@ -33,7 +33,7 @@ func NewLogger(appName string) *logrus.Entry {
 	})
 }
 
-// LoggerParam parameters for creating a logge
+// LoggerParam parameters for creating a logger
 type LoggerParam struct {
 	CorrelationID string
 	AppName       string
