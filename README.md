@@ -17,7 +17,7 @@ import (
 logger := NewLogger("MyService")
 
 logger.Info("Hello world")
-{"level":"info","message":"Hello World","service":"MyService","timestamp":"2018-04-15T21:06:00+02:00"}
+{"level":"info","message":"Hello World","appname":"MyService","timestamp":"2018-04-15T21:06:00+02:00"}
 ```
 
 ## Context logger
@@ -31,9 +31,12 @@ import (
 
 ...
 
-requestId := "1-581cf771-a006649127e371903a2de979"
-logger := NewRequestLogger(requestId, "MyService")
+correlationID := "1-581cf771-a006649127e371903a2de979"
+logger := NewStandardLogger(&LoggerParam{
+		AppName:       "MyService",
+		CorrelationID: correlationID,
+})
 
 logger.Info("Hello world")
-{"X-Request-ID":"1-581cf771-a006649127e371903a2de979","level":"info","message":"Hello World","service":"MyService","timestamp":"2018-04-15T21:05:19+02:00"}
+{"correlationid":"1-581cf771-a006649127e371903a2de979","level":"info","message":"Hello World","appname":"MyService","timestamp":"2018-04-15T21:05:19+02:00"}
 ```
