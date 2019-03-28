@@ -49,3 +49,10 @@ func TestContextLogger(t *testing.T) {
 	assert.Equal(t, "MyService", fields[AppName])
 	assert.NotNil(t, fields["timestamp"])
 }
+
+func TestGetAppNameFromARN(t *testing.T) {
+	appName, err := GetAppNameFromARN("arn:aws:lambda:eu-west-1:11111111111:function:my-test-lambda")
+
+	assert.Nil(t, err)
+	assert.Equal(t, "my-test-lambda", appName)
+}

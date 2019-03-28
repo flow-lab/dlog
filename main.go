@@ -1,9 +1,10 @@
 package dlog
 
 import (
-	"os"
-
+	"fmt"
 	"github.com/sirupsen/logrus"
+	"os"
+	"strings"
 )
 
 func init() {
@@ -54,4 +55,14 @@ func NewRequestLogger(correlationID string, service string) *logrus.Entry {
 		CorrelationID: &correlationID,
 		AppName:       &service,
 	})
+}
+
+// GetAppNameFromARN gets for example lambda name from ARN
+func GetAppNameFromARN(arn string) (string, error) {
+	if arn == "" {
+		return "", fmt.Errorf("arn cannot be blank")
+	}
+	splitted := strings.Split(arn, ":")
+	appName := splitted[len(splitted)-1]
+	return appName, nil
 }
