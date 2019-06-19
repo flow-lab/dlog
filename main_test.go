@@ -36,6 +36,9 @@ func TestContextLogger(t *testing.T) {
 	logger := NewStandardLogger(&LoggerParam{
 		AppName:       "MyService",
 		CorrelationID: correlationID,
+		Span:          "span-id",
+		Trace:         "trace-id",
+		Parent:        "parent-id",
 	})
 	logger.Logger.Out = &buffer
 	logger.Info("Hello World")
@@ -47,6 +50,9 @@ func TestContextLogger(t *testing.T) {
 	assert.Equal(t, "info", fields["level"])
 	assert.Equal(t, correlationID, fields[CorrelationID])
 	assert.Equal(t, "MyService", fields[AppName])
+	assert.Equal(t, "span-id", fields[Span])
+	assert.Equal(t, "trace-id", fields[Trace])
+	assert.Equal(t, "parent-id", fields[Parent])
 	assert.NotNil(t, fields["timestamp"])
 }
 

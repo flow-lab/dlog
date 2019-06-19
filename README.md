@@ -34,7 +34,8 @@ import (
 correlationID := "1-581cf771-a006649127e371903a2de979"
 logger := NewStandardLogger(&LoggerParam{
 		AppName:       "MyService",
-		CorrelationID: correlationID,
+		Trace:         "1-5d0a8b05-4d6952b21901d9396e578955",
+		Parent:        "0c1db8f76a4f6073",
 })
 
 logger.Info("Hello world")

@@ -25,6 +25,15 @@ const (
 
 	// AppName visible as a service
 	AppName = "appname"
+
+	// Parent segment trace id
+	Parent = "parent"
+
+	// Trace current trace id
+	Trace = "trace"
+
+	// Span id
+	Span = "span"
 )
 
 // NewLogger creates standard logger
@@ -38,6 +47,9 @@ func NewLogger(appName string) *logrus.Entry {
 type LoggerParam struct {
 	CorrelationID string
 	AppName       string
+	Parent        string
+	Trace         string
+	Span          string
 }
 
 // NewStandardLogger creates standard logger
@@ -45,6 +57,9 @@ func NewStandardLogger(loggerParam *LoggerParam) *logrus.Entry {
 	return logrus.WithFields(logrus.Fields{
 		CorrelationID: &loggerParam.CorrelationID,
 		AppName:       &loggerParam.AppName,
+		Parent:        &loggerParam.Parent,
+		Trace:         &loggerParam.Trace,
+		Span:          &loggerParam.Span,
 	})
 }
 
@@ -63,6 +78,5 @@ func GetAppNameFromARN(arn string) (string, error) {
 		return "", fmt.Errorf("arn cannot be blank")
 	}
 	splitted := strings.Split(arn, ":")
-	appName := splitted[len(splitted)-1]
-	return appName, nil
+	return splitted[len(splitted)-1], nil
 }
