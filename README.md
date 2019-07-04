@@ -31,7 +31,6 @@ import (
 
 ...
 
-correlationID := "1-581cf771-a006649127e371903a2de979"
 logger := NewStandardLogger(&LoggerParam{
 		AppName:       "MyService",
 		Trace:         "1-5d0a8b05-4d6952b21901d9396e578955",
