@@ -39,5 +39,5 @@ logger := NewStandardLogger(&LoggerParam{
 })
 
 logger.Info("Hello world")
-{"correlationid":"1-581cf771-a006649127e371903a2de979","level":"info","message":"Hello World","appname":"MyService","timestamp":"2018-04-15T21:05:19+02:00"}
+{"trace":"1-581cf771-a006649127e371903a2de979","level":"info","message":"Hello World","appname":"MyService","timestamp":"2018-04-15T21:05:19+02:00"}
 ```
