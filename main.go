@@ -7,16 +7,36 @@ import (
 	"strings"
 )
 
+type hook struct{}
+
+func (h *hook) Levels() []logrus.Level {
+	return logrus.AllLevels
+}
+
+func (h *hook) Fire(e *logrus.Entry) error {
+	for k, v := range e.Data {
+		if s, ok := v.(*string); ok {
+			if *s == "" {
+				delete(e.Data, k)
+				continue
+			}
+		}
+	}
+	return nil
+}
+
 func init() {
-	datadogFormatter := &logrus.JSONFormatter{
+	f := &logrus.JSONFormatter{
 		FieldMap: logrus.FieldMap{
 			logrus.FieldKeyTime:  "timestamp",
 			logrus.FieldKeyLevel: "level",
 			logrus.FieldKeyMsg:   "message",
 		},
 	}
-	logrus.SetFormatter(datadogFormatter)
+	logrus.SetFormatter(f)
 	logrus.SetOutput(os.Stdout)
+
+	logrus.AddHook(&hook{})
 }
 
 const (
@@ -34,6 +54,12 @@ const (
 
 	// Span id
 	Span = "span"
+
+	// App Version
+	Version = "version"
+
+	// Short SHA
+	Commit = "commit"
 )
 
 // NewLogger creates standard logger
@@ -50,17 +76,22 @@ type LoggerParam struct {
 	Parent        string
 	Trace         string
 	Span          string
+	Version       string
+	Commit        string
 }
 
 // NewStandardLogger creates standard logger
 func NewStandardLogger(loggerParam *LoggerParam) *logrus.Entry {
-	return logrus.WithFields(logrus.Fields{
+	fields := logrus.WithFields(logrus.Fields{
 		CorrelationID: &loggerParam.CorrelationID,
 		AppName:       &loggerParam.AppName,
 		Parent:        &loggerParam.Parent,
 		Trace:         &loggerParam.Trace,
 		Span:          &loggerParam.Span,
+		Version:       &loggerParam.Version,
+		Commit:        &loggerParam.Commit,
 	})
+	return fields
 }
 
 // NewRequestLogger creates standard logger with correlationId and appName
@@ -77,6 +108,6 @@ func GetAppNameFromARN(arn string) (string, error) {
 	if arn == "" {
 		return "", fmt.Errorf("arn cannot be blank")
 	}
-	splitted := strings.Split(arn, ":")
-	return splitted[len(splitted)-1], nil
+	s := strings.Split(arn, ":")
+	return s[len(s)-1], nil
 }
