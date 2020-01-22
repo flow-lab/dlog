@@ -18,8 +18,11 @@ jobs:
 
     - name: Get dependencies
       run: |
-        go get -v -t -d ./...
+        go mod download
 
+    - name: Vet
+      run: go vet ./...
+      
     - name: Test
       run: go test -covermode=atomic -installsuffix "static" ./...
       
