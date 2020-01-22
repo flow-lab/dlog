@@ -42,6 +42,7 @@ func TestContextLogger(t *testing.T) {
 			Parent:        "",
 			Version:       "",
 			Commit:        "",
+			Build:         "",
 		})
 		logger.Logger.Out = &buffer
 		logger.Info("Hello World")
@@ -58,6 +59,7 @@ func TestContextLogger(t *testing.T) {
 		assert.Nil(t, fields[Parent])
 		assert.Nil(t, fields[Version])
 		assert.Nil(t, fields[Commit])
+		assert.Nil(t, fields[Build])
 		assert.NotNil(t, fields["timestamp"])
 	})
 
@@ -73,6 +75,7 @@ func TestContextLogger(t *testing.T) {
 			Parent:        "parent-id",
 			Version:       "version",
 			Commit:        "commit",
+			Build:         "build",
 		})
 		logger.Logger.Out = &buffer
 		logger.Info("Hello World")
@@ -89,6 +92,7 @@ func TestContextLogger(t *testing.T) {
 		assert.Equal(t, "parent-id", fields[Parent])
 		assert.Equal(t, "version", fields[Version])
 		assert.Equal(t, "commit", fields[Commit])
+		assert.Equal(t, "build", fields[Build])
 		assert.NotNil(t, fields["timestamp"])
 	})
 }

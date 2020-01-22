@@ -60,6 +60,9 @@ const (
 
 	// Short SHA
 	Commit = "commit"
+
+	// Build info
+	Build = "build"
 )
 
 // NewLogger creates standard logger
@@ -78,6 +81,7 @@ type LoggerParam struct {
 	Span          string
 	Version       string
 	Commit        string
+	Build         string
 }
 
 // NewStandardLogger creates standard logger
@@ -90,6 +94,7 @@ func NewStandardLogger(loggerParam *LoggerParam) *logrus.Entry {
 		Span:          &loggerParam.Span,
 		Version:       &loggerParam.Version,
 		Commit:        &loggerParam.Commit,
+		Build:         &loggerParam.Build,
 	})
 	return fields
 }
