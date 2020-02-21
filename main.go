@@ -55,10 +55,10 @@ const (
 	// Span id
 	Span = "span"
 
-	// App Version
+	// Version of the application
 	Version = "version"
 
-	// Short SHA
+	// Commit Short SHA
 	Commit = "commit"
 
 	// Build info
