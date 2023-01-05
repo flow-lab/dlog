@@ -65,11 +65,24 @@ const (
 	Build = "build"
 )
 
-// NewLogger creates standard logger
+// NewLogger creates standard logger with info level
 func NewLogger(appName string) *logrus.Entry {
+	logrus.SetLevel(logrus.InfoLevel)
 	return logrus.WithFields(logrus.Fields{
 		AppName: &appName,
 	})
+}
+
+// NewLoggerWithLevel creates standard logger with given level
+func NewLoggerWithLevel(appName, level string) (*logrus.Entry, error) {
+	parseLevel, err := logrus.ParseLevel(level)
+	if err != nil {
+		return nil, err
+	}
+	logrus.SetLevel(parseLevel)
+	return logrus.WithFields(logrus.Fields{
+		AppName: &appName,
+	}), nil
 }
 
 // LoggerParam parameters for creating a logger

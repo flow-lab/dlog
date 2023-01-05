@@ -97,6 +97,38 @@ func TestContextLogger(t *testing.T) {
 	})
 }
 
+func TestNewLoggerWithLevel(t *testing.T) {
+	t.Run("should log debug", func(t *testing.T) {
+		var buffer bytes.Buffer
+		var fields logrus.Fields
+
+		logger, err := NewLoggerWithLevel("MyService", "debug")
+		assert.Nil(t, err)
+		logger.Logger.Out = &buffer
+		logger.Debug("Hello World")
+
+		err = json.Unmarshal(buffer.Bytes(), &fields)
+		assert.Nil(t, err)
+
+		assert.Equal(t, "Hello World", fields["message"])
+		assert.Equal(t, "debug", fields["level"])
+		assert.Equal(t, "MyService", fields[AppName])
+		assert.NotNil(t, fields["timestamp"])
+		assert.Nil(t, fields[CorrelationID])
+	})
+
+	t.Run("should log not log", func(t *testing.T) {
+		var buffer bytes.Buffer
+
+		logger, err := NewLoggerWithLevel("MyService", "info")
+		assert.Nil(t, err)
+		logger.Logger.Out = &buffer
+		logger.Debug("Hello World")
+
+		assert.Equal(t, 0, len(buffer.Bytes()))
+	})
+}
+
 func TestGetAppNameFromARN(t *testing.T) {
 	appName, err := GetAppNameFromARN("arn:aws:lambda:eu-west-1:11111111111:function:my-test-lambda")
 
