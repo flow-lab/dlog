@@ -14,12 +14,6 @@ import (
 
 ...
 
-logger := dlog.NewStandardLogger(&LoggerParam{
-		AppName:       "MyService",
-		Trace:         "1-5d0a8b05-4d6952b21901d9396e578955",
-		Parent:        "0c1db8f76a4f6073",
-})
-
 logger := dlog.NewLogger(&dlog.Config{
     AppName:      "myservice",
     Level:        "debug",
