@@ -3,23 +3,6 @@
 Go logger which logs messages in [Datadog](https://docs.datadoghq.com/logs/)
 json format. Build with https://github.com/sirupsen/logrus
 
-## Logger with default application name
-
-```go
-import (
-  ...
-  log "github.com/sirupsen/logrus"
-  "github.com/flow-lab/dlog"
-)
-
-...
-
-logger := dlog.NewLogger("MyService")
-
-logger.Info("Hello world")
-{"level":"info","message":"Hello World","appname":"MyService","timestamp":"2018-04-15T21:06:00+02:00"}
-```
-
 ## Context logger
 
 ```go
@@ -37,8 +20,17 @@ logger := dlog.NewStandardLogger(&LoggerParam{
 		Parent:        "0c1db8f76a4f6073",
 })
 
+logger := dlog.NewLogger(&dlog.Config{
+    AppName:      "myservice",
+    Level:        "debug",
+    Version:      "0.1.0",
+    Commit:       "1234567",
+    Build:        "2020-01-01T00:00:00Z",
+    ReportCaller: true,
+})
+
 logger.Info("Hello world")
-{"trace":"1-581cf771-a006649127e371903a2de979","level":"info","message":"Hello World","appname":"MyService","timestamp":"2018-04-15T21:05:19+02:00"}
+{"appname":"myservice","build":"2020-01-01T00:00:00Z","commit":"1234567","file":"/Users/test/dlog/main_test.go:82","func":"github.com/flow-lab/dlog.TestContextLogger.func2","level":"info","message":"Hello World","timestamp":"2023-01-09T16:17:36+01:00","version":"0.1.0"}
 ```
 
 License
