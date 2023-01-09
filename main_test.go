@@ -82,6 +82,7 @@ func TestContextLogger(t *testing.T) {
 			Commit:        "commit",
 			Build:         "build",
 			ReportCaller:  true,
+			Level:         "debug",
 		})
 		logger.Logger.Out = &buffer
 		logger.Info("Hello World")
@@ -123,7 +124,7 @@ func TestNewLoggerWithLevel(t *testing.T) {
 		assert.Nil(t, fields[CorrelationID])
 	})
 
-	t.Run("should log not log", func(t *testing.T) {
+	t.Run("should not log", func(t *testing.T) {
 		var buffer bytes.Buffer
 
 		logger, err := NewLoggerWithLevel("MyService", "info")

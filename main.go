@@ -103,6 +103,7 @@ type LoggerParam struct {
 	Version       string
 	Commit        string
 	Build         string
+	Level         string
 	ReportCaller  bool
 }
 
@@ -112,6 +113,14 @@ func NewStandardLogger(loggerParam *LoggerParam) *logrus.Entry {
 		return logrus.NewEntry(logrus.StandardLogger())
 	}
 	logrus.SetReportCaller(loggerParam.ReportCaller)
+
+	if loggerParam.Level != "" {
+		parseLevel, err := logrus.ParseLevel(loggerParam.Level)
+		if err == nil {
+			logrus.SetLevel(parseLevel)
+		}
+	}
+
 	fields := logrus.WithFields(logrus.Fields{
 		CorrelationID: &loggerParam.CorrelationID,
 		AppName:       &loggerParam.AppName,
