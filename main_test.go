@@ -45,6 +45,7 @@ func TestContextLogger(t *testing.T) {
 			Version:       "",
 			Commit:        "",
 			Build:         "",
+			ReportCaller:  false,
 		})
 		logger.Logger.Out = &buffer
 		logger.Info("Hello World")
@@ -62,10 +63,12 @@ func TestContextLogger(t *testing.T) {
 		assert.Nil(t, fields[Version])
 		assert.Nil(t, fields[Commit])
 		assert.Nil(t, fields[Build])
+		assert.Nil(t, fields[Func])
+		assert.Nil(t, fields[File])
 		assert.NotNil(t, fields["timestamp"])
 	})
 
-	t.Run("Should inlude all", func(t *testing.T) {
+	t.Run("Should include all", func(t *testing.T) {
 		var buffer bytes.Buffer
 		var fields logrus.Fields
 
@@ -78,6 +81,7 @@ func TestContextLogger(t *testing.T) {
 			Version:       "version",
 			Commit:        "commit",
 			Build:         "build",
+			ReportCaller:  true,
 		})
 		logger.Logger.Out = &buffer
 		logger.Info("Hello World")

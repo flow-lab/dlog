@@ -103,10 +103,15 @@ type LoggerParam struct {
 	Version       string
 	Commit        string
 	Build         string
+	ReportCaller  bool
 }
 
 // NewStandardLogger creates standard logger
 func NewStandardLogger(loggerParam *LoggerParam) *logrus.Entry {
+	if loggerParam == nil {
+		return logrus.NewEntry(logrus.StandardLogger())
+	}
+	logrus.SetReportCaller(loggerParam.ReportCaller)
 	fields := logrus.WithFields(logrus.Fields{
 		CorrelationID: &loggerParam.CorrelationID,
 		AppName:       &loggerParam.AppName,
@@ -123,6 +128,7 @@ func NewStandardLogger(loggerParam *LoggerParam) *logrus.Entry {
 // NewRequestLogger creates standard logger with correlationId and appName
 // Deprecated: Use strings.HasPrefix instead.
 func NewRequestLogger(correlationID string, service string) *logrus.Entry {
+	logrus.SetReportCaller(true)
 	return logrus.WithFields(logrus.Fields{
 		CorrelationID: &correlationID,
 		AppName:       &service,
