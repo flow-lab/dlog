@@ -63,11 +63,18 @@ const (
 
 	// Build info
 	Build = "build"
+
+	// Func is the name of the function
+	Func = "func"
+
+	// File is the file name with line number
+	File = "file"
 )
 
 // NewLogger creates standard logger with info level
 func NewLogger(appName string) *logrus.Entry {
 	logrus.SetLevel(logrus.InfoLevel)
+	logrus.SetReportCaller(true)
 	return logrus.WithFields(logrus.Fields{
 		AppName: &appName,
 	})
@@ -80,6 +87,7 @@ func NewLoggerWithLevel(appName, level string) (*logrus.Entry, error) {
 		return nil, err
 	}
 	logrus.SetLevel(parseLevel)
+	logrus.SetReportCaller(true)
 	return logrus.WithFields(logrus.Fields{
 		AppName: &appName,
 	}), nil

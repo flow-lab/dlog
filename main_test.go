@@ -27,6 +27,8 @@ func TestLogger(t *testing.T) {
 	assert.Equal(t, "MyService", fields[AppName])
 	assert.NotNil(t, fields["timestamp"])
 	assert.Nil(t, fields[CorrelationID])
+	assert.Equal(t, "github.com/flow-lab/dlog.TestLogger", fields[Func])
+	assert.Contains(t, fields[File].(string), "main_test.go:20")
 }
 
 func TestContextLogger(t *testing.T) {
