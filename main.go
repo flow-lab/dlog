@@ -1,10 +1,8 @@
 package dlog
 
 import (
-	"fmt"
 	"github.com/sirupsen/logrus"
 	"os"
-	"strings"
 )
 
 type hook struct{}
@@ -71,30 +69,8 @@ const (
 	File = "file"
 )
 
-// NewLogger creates standard logger with info level
-func NewLogger(appName string) *logrus.Entry {
-	logrus.SetLevel(logrus.InfoLevel)
-	logrus.SetReportCaller(true)
-	return logrus.WithFields(logrus.Fields{
-		AppName: &appName,
-	})
-}
-
-// NewLoggerWithLevel creates standard logger with given level
-func NewLoggerWithLevel(appName, level string) (*logrus.Entry, error) {
-	parseLevel, err := logrus.ParseLevel(level)
-	if err != nil {
-		return nil, err
-	}
-	logrus.SetLevel(parseLevel)
-	logrus.SetReportCaller(true)
-	return logrus.WithFields(logrus.Fields{
-		AppName: &appName,
-	}), nil
-}
-
-// LoggerParam parameters for creating a logger
-type LoggerParam struct {
+// Config parameters for creating a logger
+type Config struct {
 	CorrelationID string
 	AppName       string
 	Parent        string
@@ -107,48 +83,29 @@ type LoggerParam struct {
 	ReportCaller  bool
 }
 
-// NewStandardLogger creates standard logger
-func NewStandardLogger(loggerParam *LoggerParam) *logrus.Entry {
-	if loggerParam == nil {
+// NewLogger creates logger based on the config
+func NewLogger(c *Config) *logrus.Entry {
+	if c == nil {
 		return logrus.NewEntry(logrus.StandardLogger())
 	}
-	logrus.SetReportCaller(loggerParam.ReportCaller)
+	logrus.SetReportCaller(c.ReportCaller)
 
-	if loggerParam.Level != "" {
-		parseLevel, err := logrus.ParseLevel(loggerParam.Level)
+	if c.Level != "" {
+		parseLevel, err := logrus.ParseLevel(c.Level)
 		if err == nil {
 			logrus.SetLevel(parseLevel)
 		}
 	}
 
 	fields := logrus.WithFields(logrus.Fields{
-		CorrelationID: &loggerParam.CorrelationID,
-		AppName:       &loggerParam.AppName,
-		Parent:        &loggerParam.Parent,
-		Trace:         &loggerParam.Trace,
-		Span:          &loggerParam.Span,
-		Version:       &loggerParam.Version,
-		Commit:        &loggerParam.Commit,
-		Build:         &loggerParam.Build,
+		CorrelationID: &c.CorrelationID,
+		AppName:       &c.AppName,
+		Parent:        &c.Parent,
+		Trace:         &c.Trace,
+		Span:          &c.Span,
+		Version:       &c.Version,
+		Commit:        &c.Commit,
+		Build:         &c.Build,
 	})
 	return fields
-}
-
-// NewRequestLogger creates standard logger with correlationId and appName
-// Deprecated: Use strings.HasPrefix instead.
-func NewRequestLogger(correlationID string, service string) *logrus.Entry {
-	logrus.SetReportCaller(true)
-	return logrus.WithFields(logrus.Fields{
-		CorrelationID: &correlationID,
-		AppName:       &service,
-	})
-}
-
-// GetAppNameFromARN gets for example lambda name from ARN
-func GetAppNameFromARN(arn string) (string, error) {
-	if arn == "" {
-		return "", fmt.Errorf("arn cannot be blank")
-	}
-	s := strings.Split(arn, ":")
-	return s[len(s)-1], nil
 }

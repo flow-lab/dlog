@@ -15,7 +15,7 @@ func TestLogger(t *testing.T) {
 	var buffer bytes.Buffer
 	var fields logrus.Fields
 
-	logger := NewLogger("MyService")
+	logger := NewLogger(nil)
 	logger.Logger.Out = &buffer
 	logger.Info("Hello World")
 
@@ -24,11 +24,8 @@ func TestLogger(t *testing.T) {
 
 	assert.Equal(t, "Hello World", fields["message"])
 	assert.Equal(t, "info", fields["level"])
-	assert.Equal(t, "MyService", fields[AppName])
 	assert.NotNil(t, fields["timestamp"])
 	assert.Nil(t, fields[CorrelationID])
-	assert.Equal(t, "github.com/flow-lab/dlog.TestLogger", fields[Func])
-	assert.Contains(t, fields[File].(string), "main_test.go:20")
 }
 
 func TestContextLogger(t *testing.T) {
@@ -36,7 +33,7 @@ func TestContextLogger(t *testing.T) {
 		var buffer bytes.Buffer
 		var fields logrus.Fields
 
-		logger := NewStandardLogger(&LoggerParam{
+		logger := NewLogger(&Config{
 			AppName:       "",
 			CorrelationID: "",
 			Span:          "",
@@ -72,7 +69,7 @@ func TestContextLogger(t *testing.T) {
 		var buffer bytes.Buffer
 		var fields logrus.Fields
 
-		logger := NewStandardLogger(&LoggerParam{
+		logger := NewLogger(&Config{
 			AppName:       "MyService",
 			CorrelationID: correlationID,
 			Span:          "span-id",
@@ -101,44 +98,7 @@ func TestContextLogger(t *testing.T) {
 		assert.Equal(t, "commit", fields[Commit])
 		assert.Equal(t, "build", fields[Build])
 		assert.NotNil(t, fields["timestamp"])
+		assert.Contains(t, fields[Func], "TestContextLogger")
+		assert.Contains(t, fields[File], "main_test.go:85")
 	})
-}
-
-func TestNewLoggerWithLevel(t *testing.T) {
-	t.Run("should log debug", func(t *testing.T) {
-		var buffer bytes.Buffer
-		var fields logrus.Fields
-
-		logger, err := NewLoggerWithLevel("MyService", "debug")
-		assert.Nil(t, err)
-		logger.Logger.Out = &buffer
-		logger.Debug("Hello World")
-
-		err = json.Unmarshal(buffer.Bytes(), &fields)
-		assert.Nil(t, err)
-
-		assert.Equal(t, "Hello World", fields["message"])
-		assert.Equal(t, "debug", fields["level"])
-		assert.Equal(t, "MyService", fields[AppName])
-		assert.NotNil(t, fields["timestamp"])
-		assert.Nil(t, fields[CorrelationID])
-	})
-
-	t.Run("should not log", func(t *testing.T) {
-		var buffer bytes.Buffer
-
-		logger, err := NewLoggerWithLevel("MyService", "info")
-		assert.Nil(t, err)
-		logger.Logger.Out = &buffer
-		logger.Debug("Hello World")
-
-		assert.Equal(t, 0, len(buffer.Bytes()))
-	})
-}
-
-func TestGetAppNameFromARN(t *testing.T) {
-	appName, err := GetAppNameFromARN("arn:aws:lambda:eu-west-1:11111111111:function:my-test-lambda")
-
-	assert.Nil(t, err)
-	assert.Equal(t, "my-test-lambda", appName)
 }
