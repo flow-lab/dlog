@@ -25,6 +25,10 @@ logger := dlog.NewLogger(&dlog.Config{
 
 logger.Info("Hello world")
 {"appname":"myservice","build":"2020-01-01T00:00:00Z","commit":"1234567","file":"/Users/test/dlog/main_test.go:82","func":"github.com/flow-lab/dlog.TestContextLogger.func2","level":"info","message":"Hello World","timestamp":"2023-01-09T16:17:36+01:00","version":"0.1.0"}
+
+logger := logger.WithField("component", "myprocessor")
+logger.Info("Hello world")
+{"appname":"myservice","component":"myprocessor","build":"2020-01-01T00:00:00Z","commit":"1234567","file":"/Users/test/dlog/main_test.go:82","func":"github.com/flow-lab/dlog.TestContextLogger.func2","level":"info","message":"Hello World","timestamp":"2023-01-09T16:17:36+01:00","version":"0.1.0"}
 ```
 
 License
