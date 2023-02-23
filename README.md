@@ -1,17 +1,17 @@
-## dlog - Datadog Go logger ![Go](https://github.com/flow-lab/dlog/workflows/Go/badge.svg) [![codecov](https://codecov.io/gh/flow-lab/dlog/branch/master/graph/badge.svg)](https://codecov.io/gh/flow-lab/dlog) [![Go Report Card](https://goreportcard.com/badge/github.com/flow-lab/dlog)](https://goreportcard.com/report/github.com/flow-lab/dlog)
+## dlog - Go logger ![Go](https://github.com/flow-lab/dlog/workflows/Go/badge.svg) [![codecov](https://codecov.io/gh/flow-lab/dlog/branch/master/graph/badge.svg)](https://codecov.io/gh/flow-lab/dlog) [![Go Report Card](https://goreportcard.com/badge/github.com/flow-lab/dlog)](https://goreportcard.com/report/github.com/flow-lab/dlog)
 
-The dlog package provides a logging framework for Go that formats logs in JSON format, optimized for use with Google
+The _dlog_ package provides a logging framework for Go that formats logs in JSON format, optimised for use with Google
 Kubernetes, AWS EKS etc. Logs can be easily pushed to Datadog, Google Stackdriver and AWS CloudWatch.
 
 This package provides a simple and efficient way to format logs in a structured way that can be easily parsed by log
 aggregators and monitoring tools, while still being human-readable. The JSON format also allows for easy searching and
 filtering of logs, making it ideal for managing large-scale deployments.
 
-In addition to the standard logging features, dlog provides some additional features like tagging logs with metadata and
-filtering logs based on log levels. The package is highly customizable and can be easily integrated into any Go project.
+In addition to the standard logging features, _dlog_ provides additional features like tagging logs with metadata and
+filtering logs based on log levels. The package is highly customisable and easily integrated into any Go project.
 
 Build on top of [Logrus](https://github.com/sirupsen/logrus). Log format matches json
-format [Datadog](https://docs.datadoghq.com/logs/).
+format of [Datadog](https://docs.datadoghq.com/logs/).
 
 ## Installation
 
