@@ -33,7 +33,6 @@ func init() {
 	}
 	logrus.SetFormatter(f)
 	logrus.SetOutput(os.Stdout)
-
 	logrus.AddHook(&hook{})
 }
 
@@ -71,16 +70,17 @@ const (
 
 // Config parameters for creating a logger
 type Config struct {
-	CorrelationID string
-	AppName       string
-	Parent        string
-	Trace         string
-	Span          string
-	Version       string
-	Commit        string
-	Build         string
-	Level         string
-	ReportCaller  bool
+	CorrelationID string // correlation id
+	AppName       string // name of the application, e.g. diatom
+	Parent        string // parent id
+	Trace         string // trace id
+	Span          string // span id
+	Version       string // version of the application, e.g. 0.1.0
+	Commit        string // short SHA
+	Build         string // build number, e.g. 123
+	Level         string // debug, info, warn, error, fatal, panic
+	ReportCaller  bool   // default is false
+	Formatter     string // json or text, default is json
 }
 
 // NewLogger creates logger based on the config
@@ -95,6 +95,20 @@ func NewLogger(c *Config) *logrus.Entry {
 		if err == nil {
 			logrus.SetLevel(parseLevel)
 		}
+	}
+
+	if c.Formatter == "text" {
+		// this should be used for local development
+		logrus.SetFormatter(&logrus.TextFormatter{
+			DisableColors:          false,
+			DisableLevelTruncation: true,
+			FullTimestamp:          true,
+			TimestampFormat:        "2006-01-02 15:04:05.000Z",
+			PadLevelText:           true,
+			ForceColors:            true,
+		})
+		logrus.SetOutput(os.Stdout)
+		return logrus.NewEntry(logrus.StandardLogger())
 	}
 
 	fields := logrus.WithFields(logrus.Fields{

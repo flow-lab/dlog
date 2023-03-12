@@ -3,10 +3,9 @@ package dlog
 import (
 	"bytes"
 	"encoding/json"
-	"testing"
-
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 const correlationID = "1-581cf771-a006649127e371903a2de979"
@@ -99,6 +98,28 @@ func TestContextLogger(t *testing.T) {
 		assert.Equal(t, "build", fields[Build])
 		assert.NotNil(t, fields["timestamp"])
 		assert.Contains(t, fields[Func], "TestContextLogger")
-		assert.Contains(t, fields[File], "main_test.go:85")
+		assert.Contains(t, fields[File], "main_test.go:84")
+	})
+
+	t.Run("should use text formatter", func(t *testing.T) {
+		var buffer bytes.Buffer
+		logger := NewLogger(&Config{
+			AppName:       "myservice",
+			CorrelationID: "",
+			Span:          "",
+			Trace:         "",
+			Parent:        "",
+			Version:       "",
+			Commit:        "",
+			Build:         "",
+			ReportCaller:  false,
+			Level:         "debug",
+			Formatter:     "text", // default is json
+		})
+		logger.Logger.Out = &buffer
+		logger.Info("Hello World")
+
+		assert.Contains(t, buffer.String(), "INFO   ")
+		assert.Contains(t, buffer.String(), " Hello World")
 	})
 }
